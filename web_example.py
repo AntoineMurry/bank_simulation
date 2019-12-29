@@ -116,9 +116,13 @@ def generate(number, meanTBA, counters, tell_l_m_r, atms, atm_l_m_r):
         env.process(visit(env, tell_l_m_r=tell_l_m_r,
                           name='customer_' + str(i),
                           counters=counters))
+        t = expovariate(1.0/meanTBA)
+        yield env.timeout(t)
         env.process(visit_atm(env, atm_l_m_r=atm_l_m_r,
                               name='customer_' + str(i+1),
                               atms=atms))
+        t = expovariate(1.0/meanTBA)
+        yield env.timeout(t)
         env.process(visit_atm_ctr(env, atm_l_m_r=atm_l_m_r,
                                   name='customer_' + str(i+2),
                                   atms=atms, counters=counters,
@@ -129,8 +133,8 @@ def generate(number, meanTBA, counters, tell_l_m_r, atms, atm_l_m_r):
 
 ## Experiment data ------------------------------
 
-maxNumber = 50
-maxTime = 400.0     # minutes
+maxNumber = 50000
+maxTime = 72000.0     # minutes
 tell_l_m_r = (3, 30, 10)   # average time at counter, minutes
 atm_l_m_r = (2, 10, 20) # average time at atm, minutes
 meanTBA = 1.5   # average time between arrivals, minutes
@@ -153,17 +157,8 @@ counters = [simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
-            simpy.Resource(env, capacity=1),
-            simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1)]
 atms = [simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
-        simpy.Resource(env, capacity=1),
         simpy.Resource(env, capacity=1),
         simpy.Resource(env, capacity=1),
         simpy.Resource(env, capacity=1),
