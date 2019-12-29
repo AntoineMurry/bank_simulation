@@ -15,7 +15,7 @@ def otr_clts_in_res(res):
     return (len(res.queue)+len(res.users))
 
 
-def visit(env, tell_l_m_r, name, counters):
+def visit_cntr(env, tell_l_m_r, name, counters):
     """ Customer arrives, stands in line, goes to teller and leaves """
     arrive = env.now
     num_counters = len(counters)
@@ -113,9 +113,9 @@ def visit_atm_ctr(env, tell_l_m_r, name, counters, atm_l_m_r, atms):
 def generate(number, meanTBA, counters, tell_l_m_r, atms, atm_l_m_r):
     """ Source generates customers regularly """
     for i in range(0, number, 3):
-        env.process(visit(env, tell_l_m_r=tell_l_m_r,
-                          name='customer_' + str(i),
-                          counters=counters))
+        env.process(visit_cntr(env, tell_l_m_r=tell_l_m_r,
+                               name='customer_' + str(i),
+                               counters=counters))
         t = expovariate(1.0/meanTBA)
         yield env.timeout(t)
         env.process(visit_atm(env, atm_l_m_r=atm_l_m_r,
