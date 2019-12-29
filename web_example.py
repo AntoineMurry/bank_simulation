@@ -155,8 +155,6 @@ counters = [simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1),
-            simpy.Resource(env, capacity=1),
-            simpy.Resource(env, capacity=1),
             simpy.Resource(env, capacity=1)]
 atms = [simpy.Resource(env, capacity=1),
         simpy.Resource(env, capacity=1),
